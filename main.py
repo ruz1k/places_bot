@@ -6,7 +6,12 @@ bot = telebot.TeleBot('957663727:AAHG74tk-jvXVMinhWJSs4TOuOpi_Y88p2g')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Привет, я бот, который покажет тебе кальянные и пабы Казни! Также я могу сказать погоду в Казани!')
+    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    button_we = types.KeyboardButton(text="/Погода")
+    button_hk = types.KeyboardButton(text="/Кальянные")
+    button_pu = types.KeyboardButton(text="/Пабы")
+    keyboard.add(button_we, button_hk, button_pu)
+    bot.send_message(message.chat.id, "Привет, я бот, который покажет тебе кальянные и пабы Казни! Также я могу сказать погоду в Казани!", reply_markup=keyboard)
 
 @bot.message_handler(commands=['help'])
 def help(message):
@@ -15,11 +20,9 @@ def help(message):
 
 @bot.message_handler(commands=['Пабы'])
 def kazan_pub(message):
+	#Информация про Пабы
 	image = open("pub/kznpub.jpg", 'rb')
 	bot.send_photo(message.chat.id, image)
-	keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-	button_beer = types.KeyboardButton(text="/Пабы")
-	keyboard.add(button_beer)
 	bot.send_message(message.chat.id, text=
 		'Ирландский Паб "Тринити" /trinity - сердце Ирландии в Казани.' + 
 		' Место, где можно хорошо провести время за парой пинт свежего ирландского пива и ' +
@@ -58,16 +61,13 @@ def kazan_pub(message):
         ' Мы сами его варим и дружим с ведущими пивоварами.'
         ' Мы - идеалисты. Мы искренне верим, что пиво не просто может, но и должно отличаться по вкусу, цвету, запаху, плотности.'
         ' Мы - селекционеры. Мы заботливо собираем для Вас лучшие сорта по всему миру. \n\n'
-
-	    		)
+        )
 
 @bot.message_handler(commands=['Кальянные'])
 def kazan_hookah(message):
+	#Информация про Кальянные
 	image = open('hookah/hookah.jpg', 'rb')
 	bot.send_photo(message.chat.id, image)
-	keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-	button_hookah = types.KeyboardButton(text="/Кальянные")
-	keyboard.add(button_hookah)
 	bot.send_message(message.chat.id, 
 		'Hookah Place /hookahplace -  самая большая сеть кальянных в мире. Первый Хукаплейс открылся в москве в 2013 году,' 
 		' а уже в 2015 был открыт hookahplace в сша (лос анджелес),' +
@@ -88,15 +88,16 @@ def kazan_hookah(message):
         ' Мы с пониманием и чуткостью относимся к каждому гостю. \n\n'
         'ДУТЬ /dut - это место в котором вы можете расслабиться, провести время с друзьями, поиграть в консоль,' +
         ' и просто насладиться вкусным чаем и самым ароматным и дымным кальяном!\n\n'
-        'Hookah Rooms /hookahrooms - «Hookah Rooms» сочетает в себе все необходимое для комфортного отдыха. В нашем заведении представлены 3 зала с абсолютно разными концепциями и интерьерами.' +
-        ' Вас ждет комфорт, уют, кальян и, конечно же, безупречный сервис! Наши кальянные комнаты всегда открыты для Вас и Ваших друзей!\n\n'
+        'Хочу и Буду /hb - сочетает в себе все необходимое для комфортного отдыха. Это не совсем чистая кальянная, это гастро-бар, но я ее включил в данный список так как кальяны у них хорошие! Вход 350 рублей' +
+        ' Вход 350 рублей, но цены на кальяны 300 рублей. Очень вкусная еда и также дымные, и вкусны кальяны!\n\n'
         'Luna Lounge /luna — место для тех, кто ценит расслабленный отдых, вкусную еду и клубную атмосферу.Интерьер в светлых тонах смотрится свежо и современно.'
         ' Все пространство поделено на зоны, в каждой из которых чувствуешь себя в уединении, а от общения с близкими ничего не отвлекает.' +
         ' Массивные мягкие кресла, просторные диваны, большие круглые столы — все для того, чтобы отдых был максимально комфортным.' +
         ' По вечерам яркая неоновая подсветка на потолке и диско-шар превращают зал в ночной клуб, где принято танцевать под диджей-сеты и веселиться на полную. \n\n'
-        'Unity Hall /unity -  уникальное место, в котором собрано всё лучшее от кальянных, баров и кафе. Это своеобразный микс и здесь каждый найдет что-то, что будет по душе! '
-		)
+        'Unity Hall /unity -  уникальное место, в котором собрано всё лучшее от кальянных, баров и кафе. Это своеобразный микс и здесь каждый найдет что-то, что будет по душе!'
+        )
 
+#Описание места и их геолокация
 @bot.message_handler(commands=['kzncafe'])
 def kazan_pub(message):
 	bot.send_message(message.chat.id, 'Такие пабы имеются')
@@ -105,80 +106,90 @@ def kazan_pub(message):
 def handle_trinity(message):
 	name = 'Trinity'
 	addres = 'Баумана 44/8'
+	instagram = 'https://www.instagram.com/trinity_pub_kazan/'
 	image = open('pub/caption.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.791368, longitude=49.111634)
 
 @bot.message_handler(commands=['tophop'])
 def handle_tph(message):
 	name = 'Top Hop'
 	addres = 'Баумана, 36'
+	instagram = 'https://www.instagram.com/tophopbar/'
 	image = open('pub/top hop.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.793151, longitude=49.109533)
 
 @bot.message_handler(commands=['dublinpub'])
 def handle_dip(message):
 	name = 'Dublin Irish Pub'
 	addres = 'Островского, 39/6'
+	instagram = 'https://www.instagram.com/dublinpub_kzn/'
 	image = open('pub/dublin.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.786919, longitude=49.119247)
 
 @bot.message_handler(commands=['beerhouse'])
 def handle_bh(message):
 	name = 'Beer House'
 	addres = 'Астрономическая, 10'
+	instagram = 'https://www.instagram.com/beerhouse_kazan/'
 	image = open('pub/beer.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.789298, longitude=49.115996)
 
 @bot.message_handler(commands=['bbg'])
 def handle_bbg(message):
-	name = 'Brow Bear Grill'
+	name = 'Brown Bear Grill'
 	addres = 'Пушкина, 54/1'
+	instagram = 'https://www.instagram.com/brownbeargrill/'
 	image = open('pub/bbg.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.794797, longitude=49.125261)
 
 @bot.message_handler(commands=['what2do'])
 def handle_wdo(message):
 	name = 'Что делать?!'
 	addres = 'Чернышевского, 3'
+	instagram = 'https://www.instagram.com/what2dobar/'
 	image = open('pub/w2do.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.795232, longitude=49.113199)
 
 @bot.message_handler(commands=['drinkcraft'])
 def handle_dcraft(message):
 	name = 'Drink craft'
 	addres = 'Баумана, 25'
+	instagram = 'https://www.instagram.com/drinkcraft/'
 	image = open('pub/drinkcraft.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.79024, longitude=49.115896)
 
 @bot.message_handler(commands=['brewbarrel'])
 def handle_bb(message):
 	name = 'Brew Barrel'
 	addres = 'Островского, 12'
+	instagram = 'https://www.instagram.com/p/BzdAEJSAkh9/'
 	image = open('pub/brewb.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.789063, longitude=49.114361)
 
 @bot.message_handler(commands=['beerpoint_bbq'])
 def handle_bbq(message):
 	name = 'BeerPoint Brisket BBQ'
 	addres = 'Чернышевского, 16'
+	instagram = 'https://www.instagram.com/beerpoint_brisket_bbq/'
 	image = open('pub/bbq.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.792474, longitude=49.109636)
 
 @bot.message_handler(commands=['dekabrist'])
 def handle_dekabrist(message):
 	name = 'Dekabrist Pub'
 	addres = 'Лево-Булачная, 52'
+	instagram = 'https://www.instagram.com/dekabristkzn/'
 	image = open('pub/dek.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес: {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.786061, longitude=49.115277)
 
 @bot.message_handler(commands=['hookahplace'])
@@ -187,8 +198,9 @@ def handle_hp(message):
 	addres = "Пушкина, 29А"
 	addres2 = "Волкова, 70"
 	addres3 = "Фатыха Амирхана, 9"
+	instagram = 'https://www.instagram.com/hpvolkova/'
 	image = open('hookah/hookah_place.jpg', 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {}; {}; {}; \nInstagram:'.format(name, addres, addres2, addres3))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {}; {}; {}; \nInstagram: {}'.format(name, addres, addres2, addres3, instagram))
 	bot.send_location(message.chat.id, latitude=55.79269309999999, longitude=49.12417049999999)
 	bot.send_location(message.chat.id, latitude=55.787726, longitude=49.14402949999999)
 	bot.send_location(message.chat.id, latitude=55.820225, longitude=49.13283810000007)
@@ -197,16 +209,18 @@ def handle_hp(message):
 def handle_ht(message):
 	name = "Hookah Time"
 	addres = "Островского, 9/3"
+	instagram = 'https://www.instagram.com/hookahtimekzn/'
 	image = open("hookah/hookah_time.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.78990289999999, longitude=49.11311479999995)
 
 @bot.message_handler(commands=['examplelounge'])
 def handle_el(message):
 	name = "Example Lounge"
 	addres = "Галиаскара Камала, 4а"
+	instagram = 'https://www.instagram.com/examplekzn/'
 	image = open("hookah/example.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.7871804, longitude=49.11273840000001)
 
 @bot.message_handler(commands=['ourplace'])
@@ -215,8 +229,9 @@ def handle_our(message):
 	addres = "Чистопольская 46"
 	addres2 = "Кави Наджми 5"
 	addres3 = "Иннополис, Спортивная 116"
+	instagram = 'https://www.instagram.com/nashemestokzn/'
 	image = open("hookah/our_place.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {}; {}; {}; \nInstagram:'.format(name, addres, addres2, addres3))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {}; {}; {}; \nInstagram: {}'.format(name, addres, addres2, addres3, instagram))
 	bot.send_location(message.chat.id, latitude=55.818352, longitude=49.12625700000001)
 	bot.send_location(message.chat.id, latitude=55.79045559999999, longitude=49.113651300000015)
 	bot.send_location(message.chat.id, latitude=55.7489666, longitude=48.74261290000004)
@@ -225,57 +240,61 @@ def handle_our(message):
 def handle_mastab(message):
 	name = "Масштаб"
 	addres = "Петербургская, 74"
+	instagram = 'https://www.instagram.com/masshtab_kzn/'
 	image = open("hookah/mastab.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.7783265, longitude=49.139051600000016)
 
 @bot.message_handler(commands=['loft'])
 def handle_loft(message):
 	name = "Loft Club"
 	addres = "Бурхана Шахиди, 9а"
+	instagram = 'https://www.instagram.com/loftclub_kzn/'
 	image = open("hookah/loft.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.787619, longitude=49.10478790000002)
 
 @bot.message_handler(commands=['dut'])
 def handle_dut(message):
 	name = "ДУТЬ"
 	addres = "Баумана, 58А"
+	instagram = 'https://www.instagram.com/dut_club_kzn/'
 	image = open("hookah/dut.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram:'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.79006529999999, longitude=49.11551129999998)
 
-@bot.message_handler(commands=['hookahrooms'])
+@bot.message_handler(commands=['hb'])
 def handle_hr(message):
-	name = "Hookah Rooms"
-	addres = "Баумана, 42/9"
-	image = open("hookah/hr.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres))
-	bot.send_location(message.chat.id, latitude=55.7921178, longitude=49.111580799999956)
+	name = "Хочу и Буду"
+	addres = "Баумана, 25"
+	instagram = 'https://www.instagram.com/hochubudu_kzn/'
+	image = open("hookah/hb.jpg", 'rb')
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram: {}'.format(name, addres, instagram))
+	bot.send_location(message.chat.id, latitude=55.7903819, longitude=49.11615589999997)
 
 @bot.message_handler(commands=['luna'])
 def handle_luna(message):
 	name = "Luna Lounge"
 	addres = "Чистопольская, 3б"
+	instagram = 'https://www.instagram.com/luna_lounge_kazan/'
 	image = open("hookah/luna.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram: {}'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.8189127, longitude=49.09949489999997)
 
 @bot.message_handler(commands=['unity'])
-def handle_luna(message):
+def handle_unity(message):
 	name = "Unity Hall"
 	addres = "Чистопольская, 3"
 	addres2 = "Бутлерова, 21"
+	instagram = 'https://www.instagram.com/unityhall/'
 	image = open("hookah/unity_hall.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \n Адрес : {} \nInstagram:'.format(name, addres, addres2))
+	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram: {}'.format(name, addres, addres2, instagram))
 	bot.send_location(message.chat.id, latitude=55.81905219999999, longitude=49.099207999999976)
 	bot.send_location(message.chat.id, latitude=55.7879605, longitude=49.13016429999993)
 
 @bot.message_handler(commands=["Погода"])
 def handle_weather(message):
-	keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-	button_weather = types.KeyboardButton(text="/Погода")
-	keyboard.add(button_weather)
+	#Погода
 	owm = pyowm.OWM('9d65f4d82febb9ecf669d223518e69d0')
 	observation = owm.weather_at_place("Kazan")
 	w = observation.get_weather()
