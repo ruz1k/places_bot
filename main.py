@@ -259,7 +259,7 @@ def handle_dut(message):
 	name = "ДУТЬ"
 	addres = "Баумана, 58А"
 	instagram = 'https://www.instagram.com/dut_club_kzn/'
-	image = open("hookah/dut.jpg", 'rb')
+	image = open("hookah/dut.jpeg", 'rb')
 	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} \nInstagram:'.format(name, addres, instagram))
 	bot.send_location(message.chat.id, latitude=55.79006529999999, longitude=49.11551129999998)
 
