@@ -288,7 +288,7 @@ def handle_unity(message):
 	addres2 = "Бутлерова, 21"
 	instagram = 'https://www.instagram.com/unityhall/'
 	image = open("hookah/unity_hall.jpg", 'rb')
-	bot.send_photo(message.chat.id, image, caption='{} \nАдрес : {} {} \nInstagram: {}'.format(name, addres, addres2, instagram))
+	bot.send_photo(message.chat.id, image, caption='{0} \nАдрес : {1} {2} \nInstagram: {3}'.format(name, addres, addres2, instagram))
 	bot.send_location(message.chat.id, latitude=55.81905219999999, longitude=49.099207999999976)
 	bot.send_location(message.chat.id, latitude=55.7879605, longitude=49.13016429999993)
 
